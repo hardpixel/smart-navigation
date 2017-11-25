@@ -26,7 +26,6 @@ module SmartNavigation
           active_submenu_class: 'open',
           submenu_icons:        false,
           submenu_toggle:       nil,
-          icon_helper:          false,
           icon_prefix:          'icon icon-',
           icon_position:        'left'
         }
@@ -74,11 +73,7 @@ module SmartNavigation
 
       # Create menu icon
       def icon_tag(name, label=nil)
-        if @options[:icon_helper].present?
-          icon = @context.send(@options[:icon_helper], name)
-        else
-          icon = tag :i, nil, class: "#{@options[:icon_prefix]}#{name}"
-        end
+        icon = tag :i, nil, class: "#{@options[:icon_prefix]}#{name}"
 
         if @options[:icon_position] == 'left'
           "#{icon}#{label}".html_safe
