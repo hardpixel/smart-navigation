@@ -24,7 +24,70 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Define the menu items in a hash:
+
+```ruby
+@items = {
+  dashboard: {
+    label: 'Dashboard',
+    url:   :root_path,
+    icon:  'dashboard'
+  },
+  pages: {
+    label: 'Pages',
+    url:   :admin_pages_path,
+    icon:  'pages',
+    children: {
+      index: {
+        label: 'All Pages',
+        url:   :pages_path
+      },
+      new: {
+        label: 'New Page',
+        url:   :new_page_path
+      }
+    }
+  },
+  system: {
+    label:     'System',
+    separator: true
+  },
+  profile: {
+    label: 'Profile',
+    url:   -> { edit_user_path(current_user) },
+    icon:  'user',
+    if:    :user_signed_in?
+  }
+}
+```
+
+The `url` key can be a String, a Symbol or a Proc. Keys `if` and `unless` can be a Symbol or a Proc. Symbols and Procs are executed in the view context.
+
+To render a menu you can use the `navigation_for` or `smart_navigation_for` helper in your views:
+
+```erb
+<%= smart_navigation_for(@items) %>
+```
+
+There are a number of options you can use to customize the navigation. The default options are:
+
+```ruby
+options = {
+  menu_class:           'menu',
+  menu_html:            {},
+  separator_class:      'separator',
+  submenu_parent_class: 'has-submenu',
+  submenu_class:        'submenu',
+  active_class:         'active',
+  active_submenu_class: 'open',
+  submenu_icons:        false,
+  submenu_toggle:       nil,
+  icon_prefix:          'icon icon-',
+  icon_position:        'left'
+}
+
+smart_navigation_for(@items, options)
+```
 
 ## Development
 
