@@ -6,4 +6,10 @@ module SmartNavigation
 
   # Autoload modules
   autoload :Renderer
+  autoload :Helper
+end
+
+# Include action view helpers
+if defined? ActionView::Base
+  ActionView::Base.send :include, SmartNavigation::Helper
 end
