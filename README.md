@@ -1,6 +1,6 @@
 # SmartNavigation
 
-View helpers for navigation menus. Build navigation menus from hash configs.
+View helpers for navigation menus. Build navigation menus from hash objects.
 
 [![Gem Version](https://badge.fury.io/rb/smart_navigation.svg)](https://badge.fury.io/rb/smart_navigation)
 [![Build Status](https://travis-ci.org/hardpixel/smart-navigation.svg?branch=master)](https://travis-ci.org/hardpixel/smart-navigation)

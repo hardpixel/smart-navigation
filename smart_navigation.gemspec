@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Jonian Guveli']
   spec.email         = ['jonian@hardpixel.eu']
   spec.summary       = %q{View helpers for navigation menus}
-  spec.description   = %q{View helpers for navigation menus. Build navigation menus from hash configs.}
+  spec.description   = %q{View helpers for navigation menus. Build navigation menus from hash objects.}
   spec.homepage      = 'https://github.com/hardpixel/smart-navigation'
   spec.license       = 'MIT'
   spec.files         = Dir['{lib/**/*,[A-Z]*}']
