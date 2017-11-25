@@ -4,7 +4,7 @@ View helpers for navigation menus. Build navigation menus from hash configs.
 
 [![Gem Version](https://badge.fury.io/rb/smart_navigation.svg)](https://badge.fury.io/rb/smart_navigation)
 [![Build Status](https://travis-ci.org/hardpixel/smart-navigation.svg?branch=master)](https://travis-ci.org/hardpixel/smart-navigation)
-[![Code Climate](https://codeclimate.com/github/hardpixel/smart-navigation/badges/gpa.png)](https://codeclimate.com/github/hardpixel/smart-navigation)
+[![Maintainability](https://api.codeclimate.com/v1/badges/c484472c3989ff4a7c33/maintainability)](https://codeclimate.com/github/hardpixel/smart-navigation/maintainability)
 
 ## Installation
 
