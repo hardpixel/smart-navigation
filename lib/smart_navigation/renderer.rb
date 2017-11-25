@@ -25,18 +25,17 @@ module SmartNavigation
 
     # Get menu item url
     def item_url(item)
-      value = item[:url]
+      item[:url].present? ? mixed_value(item[:url]) : "##{item[:id]}"
+    end
 
-      if value.present?
-        if value.is_a?(Proc)
-          @context.instance_exec(&value)
-        elsif value.is_a?(Symbol)
-          @context.send(value)
-        else
-          value
-        end
+    # Check if should render item
+    def render_item?(item)
+      if item[:if]
+        mixed_value(item[:if]).present?
+      elsif item[:unless]
+        mixed_value(item[:unless]).blank?
       else
-        "##{item[:id]}"
+        true
       end
     end
 
@@ -113,12 +112,14 @@ module SmartNavigation
 
     # Create menu list item
     def item_tag(item, icons=false)
-      if item[:separator].present?
-        separator_tag(item)
-      elsif item[:children].present?
-        group_item_tag(item, icons)
-      else
-        single_item_tag(item, icons)
+      if render_item?(item)
+        if item[:separator].present?
+          separator_tag(item)
+        elsif item[:children].present?
+          group_item_tag(item, icons)
+        else
+          single_item_tag(item, icons)
+        end
       end
     end
 
@@ -130,6 +131,17 @@ module SmartNavigation
     # Render menu
     def render
       menu_tag @items.map { |k, v| item_tag(v, true) }.join
+    end
+
+    # Parse mixed value
+    def mixed_value(value)
+      if value.is_a?(Proc)
+        @context.instance_exec(&value)
+      elsif value.is_a?(Symbol)
+        @context.send(value)
+      else
+        value
+      end
     end
 
     # Get app helpers if method is missing
