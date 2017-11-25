@@ -25,8 +25,19 @@ module SmartNavigation
 
     # Get menu item url
     def item_url(item)
-      params = { controller: item[:controller], action: item[:action] }
-      params[:action] ? url_for(params) : "##{item[:id]}"
+      value = item[:url]
+
+      if value.present?
+        if value.is_a?(Proc)
+          @context.instance_exec(&value)
+        elsif value.is_a?(Symbol)
+          @context.send(value)
+        else
+          value
+        end
+      else
+        "##{item[:id]}"
+      end
     end
 
     # Check if current page
