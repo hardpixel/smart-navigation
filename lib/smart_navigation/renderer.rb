@@ -5,12 +5,17 @@ module SmartNavigation
       @context              = view_context
       @items                = sort_items items
       @menu_class           = options.fetch :menu_class,           'menu'
+      @menu_html            = options.fetch :menu_html,            {}
       @sep_class            = options.fetch :separator_class,      'separator'
-      @group_class          = options.fetch :group_class,          'menu-group'
+      @submenu_parent_class = options.fetch :submenu_parent_class, 'has-submenu'
       @submenu_class        = options.fetch :submenu_class,        'submenu'
       @active_class         = options.fetch :active_class,         'active'
       @active_submenu_class = options.fetch :active_submenu_class, 'open'
       @submenu_icons        = options.fetch :submenu_icons,        false
+      @submenu_toggle       = options.fetch :submenu_toggle,       nil
+      @icon_helper          = options.fetch :icon_helper,          false
+      @icon_prefix          = options.fetch :icon_prefix,          'icon icon-'
+      @icon_position        = options.fetch :icon_position,        'left'
     end
 
     # Sort items by order
@@ -32,9 +37,26 @@ module SmartNavigation
 
     # Check if current group
     def current_group?(item)
-      current = item[:children].any? { |_k, v| current_page?(v) }
-      current = item[:children].any? { |_k, v| current_group?(v) } if current.blank?
+      current = true if current_page?(item)
+      current = Hash(item[:children]).any? { |_k, v| current_page?(v) } if current.blank?
+      current = Hash(item[:children]).any? { |_k, v| current_group?(v) } if current.blank?
       current
+    end
+
+    # Create menu icon
+    def icon_tag(name, label=nil)
+      if @icon_helper.present?
+        icon = @context.send(@icon_helper, name)
+      else
+        icon = content_tag :i, nil, class: "#{@icon_prefix}#{name}"
+      end
+
+      @icon_position == 'left' ? "#{icon}#{label}".html_safe : "#{label}#{icon}".html_safe
+    end
+
+    # Create submenu toggle tag
+    def toggle_tag
+      "#{@submenu_toggle}".html_safe
     end
 
     # Create menu separator
@@ -44,10 +66,9 @@ module SmartNavigation
 
     # Create item link
     def item_link_tag(item, icons=false)
-      arrow = content_tag :span, icon('angle-left pull-right'), class: 'pull-right-container'
       label = content_tag :span, item[:label]
-      label = icon("#{item[:icon]}") + label if icons.present?
-      label = label + arrow if item[:children].present?
+      label = icon_tag("#{item[:icon]}", label) if icons.present?
+      label = label + toggle_tag if item[:children].present?
 
       link_to label.html_safe, item_url(item)
     end
@@ -58,7 +79,7 @@ module SmartNavigation
       items  = items.map { |_k, v| item_tag(v, @submenu_icons) }.join
       active = @active_submenu_class if active.present?
 
-      content_tag(:ul, items.html_safe, class: "#{active} #{@submenu_class}")
+      content_tag(:ul, items.html_safe, class: "#{active} #{@submenu_class}".strip)
     end
 
     # Create group menu item
@@ -68,7 +89,7 @@ module SmartNavigation
       submenu = submenu_item_tag item, active
       content = link + submenu
 
-      content_tag :li, content.html_safe, class: "#{active} #{@group_class}"
+      content_tag :li, content.html_safe, class: "#{active} #{@submenu_parent_class}".strip
     end
 
     # Create single menu item
@@ -92,7 +113,7 @@ module SmartNavigation
 
     # Create menu list
     def menu_tag(items)
-      content_tag :ul, items.html_safe, class: @menu_class
+      content_tag :ul, items.html_safe, Hash(@menu_html).merge(class: @menu_class)
     end
 
     # Render menu
