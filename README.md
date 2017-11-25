@@ -31,7 +31,8 @@ Define the menu items in a hash:
   dashboard: {
     label: 'Dashboard',
     url:   :root_path,
-    icon:  'dashboard'
+    icon:  'dashboard',
+    html:  { target: :_blank }
   },
   pages: {
     label: 'Pages',
