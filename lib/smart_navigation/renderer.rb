@@ -38,7 +38,11 @@ module SmartNavigation
 
       # Get menu item url
       def item_url(item)
-        item[:url].present? ? mixed_value(item[:url]) : "##{item[:id]}"
+        if item[:url].present?
+          mixed_value(item[:url])
+        elsif item[:id].present?
+          "##{item[:id]}"
+        end
       end
 
       # Check if should render item
@@ -97,8 +101,13 @@ module SmartNavigation
         label = tag :span, item[:label]
         label = icon_tag("#{item[:icon]}", label) if icons.present?
         label = label + toggle_tag if item[:children].present?
+        url   = item_url(item)
 
-        @context.link_to label.html_safe, item_url(item)
+        if url.nil?
+          tag :a, label.html_safe, Hash(item[:html])
+        else
+          @context.link_to label.html_safe, url, Hash(item[:html])
+        end
       end
 
       # Create submenu item
