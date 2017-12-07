@@ -9,7 +9,7 @@ module SmartNavigation
 
     # Render menu
     def render
-      menu_tag @items.map { |k, v| item_tag(v, true) }.join
+      menu_tag @items.map { |k, v| item_tag(v, @options[:menu_icons]) }.join
     end
 
     private
@@ -19,6 +19,7 @@ module SmartNavigation
         {
           menu_class:           'menu',
           menu_html:            {},
+          menu_icons:           true,
           separator_class:      'separator',
           submenu_parent_class: 'has-submenu',
           submenu_class:        'submenu',

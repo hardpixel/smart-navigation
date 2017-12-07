@@ -76,6 +76,7 @@ There are a number of options you can use to customize the navigation. The defau
 options = {
   menu_class:           'menu',
   menu_html:            {},
+  menu_icons:           true,
   separator_class:      'separator',
   submenu_parent_class: 'has-submenu',
   submenu_class:        'submenu',
