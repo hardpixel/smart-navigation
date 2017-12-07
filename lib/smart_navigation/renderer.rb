@@ -36,7 +36,7 @@ module SmartNavigation
 
       # Get merged options
       def merge_options(options)
-        if @options[:keep_defaults].present?
+        if options[:keep_defaults].present?
           default_options.merge(options)
         else
           options
