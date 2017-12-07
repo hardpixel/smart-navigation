@@ -84,7 +84,8 @@ options = {
   submenu_icons:        false,
   submenu_toggle:       nil,
   icon_prefix:          'icon icon-',
-  icon_position:        'left'
+  icon_position:        'left',
+  keep_defaults:        true
 }
 
 smart_navigation_for(@items, options)

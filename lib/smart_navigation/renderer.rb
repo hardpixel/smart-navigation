@@ -4,7 +4,7 @@ module SmartNavigation
     def initialize(view_context, items, options={})
       @context = view_context
       @items   = sort_items items
-      @options = default_options.merge(options)
+      @options = merge_options options
     end
 
     # Render menu
@@ -27,8 +27,18 @@ module SmartNavigation
           submenu_icons:        false,
           submenu_toggle:       nil,
           icon_prefix:          'icon icon-',
-          icon_position:        'left'
+          icon_position:        'left',
+          keep_defaults:        true
         }
+      end
+
+      # Get merged options
+      def merge_options(options)
+        if @options[:keep_defaults].present?
+          default_options.merge(options)
+        else
+          options
+        end
       end
 
       # Sort items by order
