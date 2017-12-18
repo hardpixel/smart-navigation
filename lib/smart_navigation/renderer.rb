@@ -20,9 +20,11 @@ module SmartNavigation
           menu_class:           'menu',
           menu_html:            {},
           menu_icons:           true,
+          item_class:           'menu-item',
           separator_class:      'separator',
           submenu_parent_class: 'has-submenu',
           submenu_class:        'submenu',
+          submenu_item_class:   'submenu-item',
           active_class:         'active',
           active_submenu_class: 'open',
           submenu_icons:        false,
@@ -116,16 +118,16 @@ module SmartNavigation
         url   = item_url(item)
 
         if url.nil?
-          tag :a, label.html_safe, Hash(item[:html])
+          tag :a, label.html_safe
         else
-          @context.link_to label.html_safe, url, Hash(item[:html])
+          @context.link_to label.html_safe, url
         end
       end
 
       # Create submenu item
       def submenu_item_tag(item, active=false)
         items  = sort_items item[:children]
-        items  = items.map { |_k, v| item_tag(v, @options[:submenu_icons]) }.join
+        items  = items.map { |_k, v| item_tag(v, @options[:submenu_icons], true) }.join
         active = @options[:active_submenu_class] if active.present?
 
         tag(:ul, items.html_safe, class: "#{active} #{@options[:submenu_class]}".strip)
@@ -142,11 +144,14 @@ module SmartNavigation
       end
 
       # Create single menu item
-      def single_item_tag(item, icons=false)
+      def single_item_tag(item, icons=false, subitem=false)
         active = @options[:active_class] if current_page?(item)
+        iclass = subitem ? @options[:submenu_item_class] : @options[:item_class]
         link   = item_link_tag(item, icons)
+        opts   = Hash(item[:html])
+        opts   = opts.merge(class: "#{opts[:class]} #{active} #{iclass}".strip)
 
-        tag :li, link.html_safe, class: "#{active}"
+        tag :li, link.html_safe, opts
       end
 
       # Create menu list item
