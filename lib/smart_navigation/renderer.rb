@@ -118,9 +118,9 @@ module SmartNavigation
         url   = item_url(item)
 
         if url.nil?
-          tag :a, label.html_safe
+          tag :a, label.html_safe, Hash(item[:html])
         else
-          @context.link_to label.html_safe, url
+          @context.link_to label.html_safe, url, Hash(item[:html])
         end
       end
 
@@ -148,7 +148,7 @@ module SmartNavigation
         active = @options[:active_class] if current_page?(item)
         iclass = subitem ? @options[:submenu_item_class] : @options[:item_class]
         link   = item_link_tag(item, icons)
-        opts   = Hash(item[:html])
+        opts   = Hash(item[:wrapper_html])
         opts   = opts.merge(class: "#{opts[:class]} #{active} #{iclass}".strip)
 
         tag :li, link.html_safe, opts
