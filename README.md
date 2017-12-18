@@ -29,10 +29,11 @@ Define the menu items in a hash:
 ```ruby
 @items = {
   dashboard: {
-    label: 'Dashboard',
-    url:   :root_path,
-    icon:  'dashboard',
-    html:  { target: :_blank }
+    label:        'Dashboard',
+    url:          :root_path,
+    icon:         'dashboard',
+    html:         { target: :_blank },
+    wrapper_html: { class: 'dashboard' }
   },
   pages: {
     label: 'Pages',
@@ -77,9 +78,11 @@ options = {
   menu_class:           'menu',
   menu_html:            {},
   menu_icons:           true,
+  item_class:           'menu-item',
   separator_class:      'separator',
   submenu_parent_class: 'has-submenu',
   submenu_class:        'submenu',
+  submenu_item_class:   'submenu-item',
   active_class:         'active',
   active_submenu_class: 'open',
   submenu_icons:        false,
