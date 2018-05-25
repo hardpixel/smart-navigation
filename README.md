@@ -32,6 +32,7 @@ Define the menu items in a hash:
     label:        'Dashboard',
     url:          :root_path,
     icon:         'dashboard',
+    root:         true,
     html:         { target: :_blank },
     wrapper_html: { class: 'dashboard' }
   },

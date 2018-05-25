@@ -50,6 +50,14 @@ module SmartNavigation
         items.sort_by { |_k, v| v[:order] }.to_h
       end
 
+      # Check if url parent
+      def page_parent?(item)
+        url   = item_url item
+        paths = [@context.request.path, @context.request.url]
+
+        item[:root].blank? && paths.any? { |i| i.starts_with?(url) }
+      end
+
       # Get menu item url
       def item_url(item)
         if item[:url].present?
@@ -72,15 +80,18 @@ module SmartNavigation
 
       # Check if current page
       def current_page?(item)
-        url = item_url(item)
-        @context.current_page?(url)
+        current = @context.current_page?(item_url(item))
+        current = page_parent?(item) if item[:children].blank? and current.blank?
+
+        current
       end
 
       # Check if current group
       def current_group?(item)
-        current = true if current_page?(item)
+        current = current_page?(item)
         current = Hash(item[:children]).any? { |_k, v| current_page?(v) } if current.blank?
         current = Hash(item[:children]).any? { |_k, v| current_group?(v) } if current.blank?
+
         current
       end
 
