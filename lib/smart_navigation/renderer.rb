@@ -55,7 +55,7 @@ module SmartNavigation
         url   = item_url item
         paths = [@context.request.path, @context.request.url]
 
-        item[:root].blank? && paths.any? { |i| i.starts_with?(url) }
+        url.present? && item[:root].blank? && paths.any? { |i| i.starts_with?(url) }
       end
 
       # Get menu item url
