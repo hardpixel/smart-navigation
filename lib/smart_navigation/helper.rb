@@ -1,7 +1,7 @@
 module SmartNavigation
   module Helper
     # Render navigation builder
-    def smart_navigation_for(items, options={})
+    def smart_navigation_for(items, options = {})
       SmartNavigation::Renderer.new(self, items, options).render
     end
 
