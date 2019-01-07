@@ -148,14 +148,14 @@ module SmartNavigation
     end
 
     def item_tag(item, icons = false, subitem = false)
-      if render_item?(item)
-        if item[:separator].present?
-          separator_tag(item)
-        elsif item[:children].present?
-          group_item_tag(item, icons)
-        else
-          single_item_tag(item, icons, subitem)
-        end
+      return unless render_item?(item)
+
+      if item[:separator].present?
+        separator_tag(item)
+      elsif item[:children].present?
+        group_item_tag(item, icons)
+      else
+        single_item_tag(item, icons, subitem)
       end
     end
 
